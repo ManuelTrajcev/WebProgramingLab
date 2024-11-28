@@ -1,8 +1,9 @@
 package mk.ukim.finki.wp.lab;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+
+//git clone https://github.com/ManuelTrajcev/WebProgramingLab.git
 
 @SpringBootApplication
 @ServletComponentScan
