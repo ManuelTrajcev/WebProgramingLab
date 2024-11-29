@@ -2,6 +2,7 @@ package mk.ukim.finki.wp.lab.web.controller;
 
 
 import mk.ukim.finki.wp.lab.model.Album;
+import mk.ukim.finki.wp.lab.model.Price;
 import mk.ukim.finki.wp.lab.model.Song;
 import mk.ukim.finki.wp.lab.service.AlbumService;
 import mk.ukim.finki.wp.lab.service.SongService;
@@ -44,7 +45,7 @@ public class SongController {
         if (album.isPresent()) {
             a = album.get();
         }
-        Song newSong = new Song(trackId, title, genre, releaseYear, List.of(), a);
+        Song newSong = new Song(trackId, title, genre, releaseYear, List.of(), a, new Price(100, "$"));
         songService.listSongs().add(newSong);
 
         return "redirect:/songs";
@@ -119,6 +120,7 @@ public class SongController {
                               @RequestParam("genre") String genre,
                               @RequestParam("releaseYear") int releaseYear,
                               @RequestParam("albumId") Long albumId,
+                              @RequestParam("price") Price price,
                               Model model) {
         Optional<Album> album = albumService.findById(albumId);
         Album a = album.orElse(null);
@@ -131,7 +133,7 @@ public class SongController {
             oldSong.setReleaseYear(releaseYear);
             oldSong.setAlbum(a);
         } else {
-            Song newSong = new Song(trackId, title, genre, releaseYear, List.of(), a);
+            Song newSong = new Song(trackId, title, genre, releaseYear, List.of(), a, price);
             songService.listSongs().add(newSong);
         }
 

@@ -1,8 +1,10 @@
 package mk.ukim.finki.wp.lab.bootstrap;
 
+
 import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.model.Artist;
+import mk.ukim.finki.wp.lab.model.Price;
 import mk.ukim.finki.wp.lab.model.Song;
 import org.springframework.stereotype.Component;
 
@@ -33,11 +35,11 @@ public class Dataholder {
         albums.add(new Album(5L, "I Am... Sasha Fierce", "Pop", "2008"));
         songs = new ArrayList<>();
 
-        songs.add(new Song("TRK001", "We Will Rock You", "Rock", 1977, List.of(artists.get(0), artists.get(1)), albums.get(0)));
-        songs.add(new Song("TRK002", "Jailhouse Rock", "Rock and Roll", 1957, List.of(artists.get(1), artists.get(4)), albums.get(1)));
-        songs.add(new Song("TRK003", "I Will Always Love You", "Pop", 1992, List.of(artists.get(2)),  albums.get(0)));
-        songs.add(new Song("TRK004", "Thriller", "Pop", 1982, List.of(artists.get(3), artists.get(4), artists.get(1)), albums.get(2)));
-        songs.add(new Song("TRK005", "Respect", "Soul", 1967, List.of(artists.get(4), artists.get(2)), albums.get(3)));
+        songs.add(new Song("TRK001", "We Will Rock You", "Rock", 1977, List.of(artists.get(0), artists.get(1)), albums.get(0), new Price(100, "$")));
+        songs.add(new Song("TRK002", "Jailhouse Rock", "Rock and Roll", 1957, List.of(artists.get(1), artists.get(4)), albums.get(1), new Price(100, "$") ));
+        songs.add(new Song("TRK003", "I Will Always Love You", "Pop", 1992, List.of(artists.get(2)),  albums.get(0), new Price(100, "$")));
+        songs.add(new Song("TRK004", "Thriller", "Pop", 1982, List.of(artists.get(3), artists.get(4), artists.get(1)), albums.get(2), new Price(100, "$")));
+        songs.add(new Song("TRK005", "Respect", "Soul", 1967, List.of(artists.get(4), artists.get(2)), albums.get(3), new Price(100, "$")));
 
     }
 }

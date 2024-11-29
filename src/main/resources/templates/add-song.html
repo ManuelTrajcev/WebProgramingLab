@@ -24,6 +24,10 @@
     <input type="number" id="releaseYear" name="releaseYear" th:value="${song != null ? song.releaseYear : ''}" required />
     <br><br>
 
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" th:value="${song != null ? song.price : ''}" required />
+    <br><br>
+
     <label for="albumId">Album:</label>
     <select id="albumId" name="albumId" required>
         <option value="" disabled selected th:if="${song == null || song.album == null}">Select an Album</option>
