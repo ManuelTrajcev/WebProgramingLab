@@ -39,6 +39,6 @@ public class ArtistController {
             songService.addArtistToSong(artist, song);
         }
 
-        return "redirect:/songDetails?trackId=" + trackId + "&artistId=" + artistId;
+        return "redirect:/songs/songDetails/" + trackId;
     }
 }
