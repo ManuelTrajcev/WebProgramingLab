@@ -45,8 +45,8 @@ public class SongController {
         if (album.isPresent()) {
             a = album.get();
         }
-        Song newSong = new Song(trackId, title, genre, releaseYear, List.of(), a, new Price(100, "$"));
-        songService.listSongs().add(newSong);
+        Song newSong = new Song(trackId, title, genre, releaseYear, List.of(), a, "100 $");
+        songService.saveSong(newSong);
 
         return "redirect:/songs";
     }
@@ -63,7 +63,7 @@ public class SongController {
         if (s.isPresent()) {
             song = s.get();
         }
-        songService.listSongs().remove(song);
+        songService.deleteSong(song);
         return "redirect:/songs";
     }
 
@@ -120,7 +120,7 @@ public class SongController {
                               @RequestParam("genre") String genre,
                               @RequestParam("releaseYear") int releaseYear,
                               @RequestParam("albumId") Long albumId,
-                              @RequestParam("price") Price price,
+                              @RequestParam("price") String price,
                               Model model) {
         Optional<Album> album = albumService.findById(albumId);
         Album a = album.orElse(null);
@@ -132,9 +132,10 @@ public class SongController {
             oldSong.setGenre(genre);
             oldSong.setReleaseYear(releaseYear);
             oldSong.setAlbum(a);
+            songService.saveSong(oldSong);
         } else {
             Song newSong = new Song(trackId, title, genre, releaseYear, List.of(), a, price);
-            songService.listSongs().add(newSong);
+            songService.saveSong(newSong);
         }
 
         return "redirect:/songs";

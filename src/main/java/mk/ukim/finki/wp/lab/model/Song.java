@@ -5,28 +5,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@NoArgsConstructor
 @Data
 public class Song {
     private String trackId;
-    private Long id = (long) (Math.random()*1000);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
     private String genre;
     private int releaseYear;
-    private List<Artist> performers;
+    @ManyToMany
+    private List<Artist> performers = new ArrayList<>();
+    @ManyToOne
     private Album album;
-    private Price price;
+    private String price;
 
-    public Song(String trackId, String title, String genre, int releaseYear, List<Artist> performers, Album album, Price price) {
+    public Song(String trackId, String title, String genre, int releaseYear, List<Artist> performers, Album album, String price) {
         this.trackId = trackId;
-        this.id = (long) (Math.random()*1000);
         this.title = title;
         this.genre = genre;
         this.releaseYear = releaseYear;
         this.performers = performers;
         this.album = album;
         this.price = price;
+    }
+
+    public void addArtist(Artist artist) {
+        performers.add(artist);
     }
 }

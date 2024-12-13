@@ -1,4 +1,4 @@
-package mk.ukim.finki.wp.lab.repository;
+package mk.ukim.finki.wp.lab.repository.InMemoryRepositories;
 
 import mk.ukim.finki.wp.lab.bootstrap.Dataholder;
 import mk.ukim.finki.wp.lab.model.Artist;

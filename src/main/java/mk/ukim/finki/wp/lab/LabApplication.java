@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
 //git clone https://github.com/ManuelTrajcev/WebProgramingLab.git
-//http://localhost:8080/songs
+//http://localhost:9090/songs
 
 @SpringBootApplication
 @ServletComponentScan
