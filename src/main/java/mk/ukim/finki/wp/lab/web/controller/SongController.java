@@ -6,6 +6,7 @@ import mk.ukim.finki.wp.lab.model.Price;
 import mk.ukim.finki.wp.lab.model.Song;
 import mk.ukim.finki.wp.lab.service.AlbumService;
 import mk.ukim.finki.wp.lab.service.SongService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/songs")
+@RequestMapping({"/songs", "/"})
 public class SongController {
     private final SongService songService;
     private final AlbumService albumService;
@@ -26,11 +27,30 @@ public class SongController {
     }
 
     @GetMapping
-    public String getSongsPage(@RequestParam(required = false) String error, Model model) {
-        model.addAttribute("songs", songService.listSongs());
+    public String getSongsPage(
+            @RequestParam(required = false) String error,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) Long albumSelectionId,
+            Model model) {
+
+        System.out.println(name);
+        System.out.println(genre);
+        System.out.println(albumSelectionId);
+
+
+        List<Song> filteredSongs = songService.filterSongs(name, genre, albumSelectionId);
+        model.addAttribute("songs", filteredSongs);
         model.addAttribute("albums", albumService.findAll());
         return "listSongs";
     }
+
+    @GetMapping("/access_denied")
+    public String getAccessDeniedPage(Model model) {
+        model.addAttribute("bodyContent", "access-denied");
+        return "access-denied";
+    }
+
 
     @PostMapping("/add")
     public String saveSong(
@@ -57,6 +77,7 @@ public class SongController {
 //    }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteSong(@PathVariable Long id) {
         Optional<Song> s = songService.findById(id);
         Song song = null;
@@ -79,6 +100,7 @@ public class SongController {
     }
 
     @GetMapping("/edit-form/{id}")
+    @PreAuthorize("isAuthenticated()")
     public String getEditSongForm(
             @PathVariable Long id,
             Model model, RedirectAttributes redirectAttributes) {
@@ -97,7 +119,9 @@ public class SongController {
         return "redirect:/songs/add-form?id=" + id;
     }
 
+
     @GetMapping("/add-form")
+    @PreAuthorize("isAuthenticated()")
     public String getAddSongPage(@RequestParam(required = false) Long id, Model model) {
         Song song = null;
 
@@ -114,6 +138,7 @@ public class SongController {
     }
 
     @PostMapping("/add-form")
+    @PreAuthorize("hasRole('ADMIN')")
     public String addSongForm(@RequestParam(required = false) Long id,
                               @RequestParam("title") String title,
                               @RequestParam("trackId") String trackId,

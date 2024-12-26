@@ -38,8 +38,9 @@
         </option>
     </select>
     <br><br>
-
-    <button type="submit">Save Song</button>
+        <th:block sec:authorize="hasRole('ADMIN')">
+            <button type="submit">Save Song</button>
+        </th:block>
 </form>
 </body>
 </html>

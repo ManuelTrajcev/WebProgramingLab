@@ -18,4 +18,6 @@ public interface SongService {
     void deleteSong(Song song);
 
     void saveSong(Song newSong);
+
+    List<Song> filterSongs(String name, String genre, Long albumId);
 }

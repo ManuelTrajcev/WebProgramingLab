@@ -2,13 +2,13 @@ package mk.ukim.finki.wp.lab.bootstrap;
 
 
 import jakarta.annotation.PostConstruct;
-import mk.ukim.finki.wp.lab.model.Album;
-import mk.ukim.finki.wp.lab.model.Artist;
-import mk.ukim.finki.wp.lab.model.Price;
-import mk.ukim.finki.wp.lab.model.Song;
+import mk.ukim.finki.wp.lab.model.*;
+import mk.ukim.finki.wp.lab.model.enumerations.Role;
 import mk.ukim.finki.wp.lab.repository.AlbumRepository;
 import mk.ukim.finki.wp.lab.repository.ArtistRepository;
 import mk.ukim.finki.wp.lab.repository.SongRepository;
+import mk.ukim.finki.wp.lab.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,18 +19,23 @@ public class Dataholder {
     public static List<Artist> artists = null;
     public static List<Song> songs = null;
     public static List<Album> albums = null;
+    public static List<User> users = null;
+
 
     private final ArtistRepository artistRepository;
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
+    private final UserRepository userRepository;
 
-    public Dataholder(ArtistRepository artistRepository, SongRepository songRepository, AlbumRepository albumRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+
+    public Dataholder(ArtistRepository artistRepository, SongRepository songRepository, AlbumRepository albumRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.artistRepository = artistRepository;
         this.songRepository = songRepository;
         this.albumRepository = albumRepository;
-
-
-
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
@@ -76,6 +81,14 @@ public class Dataholder {
         albums.get(1).getSongs().add(song2);
         albums.get(2).getSongs().add(song4);
         albums.get(3).getSongs().add(song5);
+
+
+        users = new ArrayList<>();
+        if (this.userRepository.count() == 0) {
+            users.add(new User("user", passwordEncoder.encode("user"), "User", "User", Role.ROLE_USER));
+            users.add(new User("admin", passwordEncoder.encode("admin"), "admin", "admin", Role.ROLE_ADMIN));
+            this.userRepository.saveAll(users);
+        }
 
     }
 }
