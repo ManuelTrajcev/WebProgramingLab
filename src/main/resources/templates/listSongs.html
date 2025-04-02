@@ -77,6 +77,12 @@
         <br/>
     </div>
 
+    <th:block sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="POST" style="display:inline;">
+            <button type="submit">Log Out</button>
+        </form>
+    </th:block>
+
     <h2>Add new song:</h2>
     <form th:action="@{/songs/add}" method="POST">
         <label for="title">Song Title:</label>
